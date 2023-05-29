@@ -1,0 +1,1 @@
+{"version":3,"file":"static/js/49.980faa81.chunk.js","mappings":"4HAIA,UAJc,WACZ,OAAOA,EAAAA,EAAAA,KAAA,OAAAC,SAAK,SACd,C","sources":["pages/Chats.js"],"sourcesContent":["const Chats = () => {\n  return <div>Chats</div>;\n};\n\nexport default Chats;\n"],"names":["_jsx","children"],"sourceRoot":""}
