@@ -1,20 +1,13 @@
-import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
+import { checkAuth } from "../../api/api";
 
 export const logIn = createAsyncThunk(
   "auth/login",
   async (credentials, thunkAPI) => {
     try {
-      let config = {
-        method: "get",
-        maxBodyLength: Infinity,
-        url: `https://api.green-api.com/waInstance${credentials.idInstance}/getStateInstance/${credentials.apiTokenInstance}`,
-        headers: {},
-      };
-
-      const response = await axios.request(config);
-      if (response.data.stateInstance !== "authorized") {
+      const response = await checkAuth(credentials);
+      if (response !== "authorized") {
         toast(
           "You are not authorized! Please authorize your profile and try again"
         );
