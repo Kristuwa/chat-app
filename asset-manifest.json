@@ -1,21 +1,24 @@
 {
   "files": {
     "main.css": "/chat-app/static/css/main.fb841a4b.css",
-    "main.js": "/chat-app/static/js/main.dc58a4b0.js",
-    "static/js/690.ec460f99.chunk.js": "/chat-app/static/js/690.ec460f99.chunk.js",
-    "static/js/986.c01b2603.chunk.js": "/chat-app/static/js/986.c01b2603.chunk.js",
-    "static/js/308.0e173aae.chunk.js": "/chat-app/static/js/308.0e173aae.chunk.js",
+    "main.js": "/chat-app/static/js/main.b2a2b5cf.js",
+    "static/js/690.389d88b2.chunk.js": "/chat-app/static/js/690.389d88b2.chunk.js",
+    "static/js/936.4f3838ad.chunk.js": "/chat-app/static/js/936.4f3838ad.chunk.js",
+    "static/js/922.acd187ff.chunk.js": "/chat-app/static/js/922.acd187ff.chunk.js",
     "static/js/568.56fc9c3c.chunk.js": "/chat-app/static/js/568.56fc9c3c.chunk.js",
+    "static/js/185.f357cb39.chunk.js": "/chat-app/static/js/185.f357cb39.chunk.js",
+    "static/media/bg.jpg": "/chat-app/static/media/bg.dd43e6fdc459270d2950.jpg",
     "index.html": "/chat-app/index.html",
     "main.fb841a4b.css.map": "/chat-app/static/css/main.fb841a4b.css.map",
-    "main.dc58a4b0.js.map": "/chat-app/static/js/main.dc58a4b0.js.map",
-    "690.ec460f99.chunk.js.map": "/chat-app/static/js/690.ec460f99.chunk.js.map",
-    "986.c01b2603.chunk.js.map": "/chat-app/static/js/986.c01b2603.chunk.js.map",
-    "308.0e173aae.chunk.js.map": "/chat-app/static/js/308.0e173aae.chunk.js.map",
-    "568.56fc9c3c.chunk.js.map": "/chat-app/static/js/568.56fc9c3c.chunk.js.map"
+    "main.b2a2b5cf.js.map": "/chat-app/static/js/main.b2a2b5cf.js.map",
+    "690.389d88b2.chunk.js.map": "/chat-app/static/js/690.389d88b2.chunk.js.map",
+    "936.4f3838ad.chunk.js.map": "/chat-app/static/js/936.4f3838ad.chunk.js.map",
+    "922.acd187ff.chunk.js.map": "/chat-app/static/js/922.acd187ff.chunk.js.map",
+    "568.56fc9c3c.chunk.js.map": "/chat-app/static/js/568.56fc9c3c.chunk.js.map",
+    "185.f357cb39.chunk.js.map": "/chat-app/static/js/185.f357cb39.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.fb841a4b.css",
-    "static/js/main.dc58a4b0.js"
+    "static/js/main.b2a2b5cf.js"
   ]
 }
