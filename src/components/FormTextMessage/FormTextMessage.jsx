@@ -8,24 +8,23 @@ import {
 } from "../Form/Form.styled";
 
 const validateSchema = Yup.object().shape({
-  phone: Yup.number().required("Required"),
+  text: Yup.string().required("Required"),
 });
 
-export const FormNumber = ({ onSubmit }) => {
+export const FormTextMessage = ({ onSubmitMessage }) => {
   return (
     <Formik
       initialValues={{
-        phone: "",
+        text: "",
       }}
       validationSchema={validateSchema}
-      onSubmit={onSubmit}
+      onSubmit={onSubmitMessage}
     >
       {({ errors, touched }) => (
         <FormContainer>
           <FieldContainer>
-            <label htmlFor="phone">Telephone number</label>
-            <Input id="phone" name="phone" placeholder="Enter phone" />
-            {errors.phone && touched.phone ? <div>{errors.phone}</div> : null}
+            <Input id="text" name="text" placeholder="Enter text message" />
+            {errors.text && touched.text ? <div>{errors.text}</div> : null}
           </FieldContainer>
 
           <ButtonForm type="submit">Submit</ButtonForm>

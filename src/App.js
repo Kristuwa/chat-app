@@ -10,7 +10,8 @@ import { lazy, useEffect } from "react";
 import { refreshUser } from "./redux/auth/operations";
 import { useDispatch } from "react-redux";
 import { useAuth } from "./hooks/useAuth";
-import { Container, Refreshing } from "./App.styled";
+import { Refreshing } from "./App.styled";
+import { Container } from "./pages/Home.styled";
 
 const HomePage = lazy(() => import("./pages/Home"));
 const ChatsPage = lazy(() => import("./pages/Chats"));
@@ -25,9 +26,11 @@ export const App = () => {
   }, [dispatch]);
 
   return isRefreshing ? (
-    <Container>
-      <Refreshing>Refreshing user...</Refreshing>
-    </Container>
+    <ThemeProvider theme={theme}>
+      <Container>
+        <Refreshing>Refreshing user...</Refreshing>
+      </Container>
+    </ThemeProvider>
   ) : (
     <ThemeProvider theme={theme}>
       <ToastContainer

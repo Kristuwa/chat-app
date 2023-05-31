@@ -60,7 +60,7 @@ export const Form = () => {
             ) : null}
           </FieldContainer>
 
-          <ButtonForm type="submit">Submit</ButtonForm>
+          <ButtonForm type="submit">Login</ButtonForm>
         </FormContainer>
       )}
     </Formik>

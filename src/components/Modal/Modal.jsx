@@ -3,14 +3,6 @@ import { Overlay, ModalContainer } from "./Modal.styled";
 import { useEffect } from "react";
 
 export const Modal = ({ onModalClose, onSubmit }) => {
-  useEffect(() => {
-    window.addEventListener("keydown", onCloseEsc);
-
-    return () => {
-      window.removeEventListener("keydown", onCloseEsc);
-    };
-  });
-
   const onCloseEsc = (e) => {
     if (e.code === "Escape") {
       onModalClose();
@@ -22,6 +14,14 @@ export const Modal = ({ onModalClose, onSubmit }) => {
       onModalClose();
     }
   };
+
+  useEffect(() => {
+    window.addEventListener("keydown", onCloseEsc);
+
+    return () => {
+      window.removeEventListener("keydown", onCloseEsc);
+    };
+  });
 
   return (
     <Overlay onClick={onCloseBackdrop}>

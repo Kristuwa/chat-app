@@ -2,10 +2,13 @@ import { Field, Form } from "formik";
 import styled from "styled-components";
 
 export const FormContainer = styled(Form)`
+  background-color: ${(props) => props.theme.color.bgColor};
   width: 350px;
+  padding: 40px;
   display: flex;
   flex-direction: column;
   gap: 15px;
+  border-radius: 10px;
 `;
 
 export const FieldContainer = styled.div`
