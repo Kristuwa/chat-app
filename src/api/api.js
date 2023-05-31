@@ -3,14 +3,9 @@ import { toast } from "react-toastify";
 
 const BASE_URL = "https://api.green-api.com";
 
-export const enterMessage = async (data, idInstance, apiTokenInstance) => {
+export const sendMessage = async (data, idInstance, apiTokenInstance) => {
   try {
-    const { phone, text } = data;
-
-    let newData = JSON.stringify({
-      chatId: `${phone}@c.us`,
-      message: text,
-    });
+    let newData = JSON.stringify(data);
 
     let config = {
       method: "post",
@@ -42,5 +37,36 @@ export const checkAuth = async (data) => {
     return response.data.stateInstance;
   } catch (err) {
     toast.error(err.message);
+  }
+};
+
+export const getNotification = async (idInstance, apiTokenInstance) => {
+  let config = {
+    method: "get",
+    maxBodyLength: Infinity,
+    url: `${BASE_URL}/waInstance${idInstance}/receiveNotification/${apiTokenInstance}`,
+    headers: {},
+  };
+
+  try {
+    const result = await axios.request(config);
+    console.log(result.data);
+    if (result.data !== null) {
+      const { receiptId, body } = result.data;
+      console.log("body", body.messageData?.textMessageData?.textMessage);
+      let configDelete = {
+        method: "delete",
+        maxBodyLength: Infinity,
+        url: `${BASE_URL}/waInstance${idInstance}/deleteNotification/${apiTokenInstance}/${receiptId}`,
+        headers: {},
+      };
+
+      console.log(receiptId);
+
+      const resultDelete = await axios.request(configDelete);
+      console.log(resultDelete);
+    }
+  } catch (error) {
+    toast.error(error.message);
   }
 };

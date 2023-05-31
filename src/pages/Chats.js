@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal } from "../components/Modal/Modal";
 import { useCallback } from "react";
 import { ForTextMessage } from "../components/FormTextMessage/FormTextMessage";
-import { enterMessage } from "../api/api";
+import { sendMessage, getNotification } from "../api/api";
 import { useSelector } from "react-redux";
 import { selectUser } from "../redux/auth/selectors";
 
@@ -10,6 +10,7 @@ const Chats = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { idInstance, apiTokenInstance } = useSelector(selectUser);
+  //   const [listNotification, setListNotification] = useState([]);
 
   const onSubmit = useCallback((values, { resetForm }) => {
     setPhoneNumber(values.phone);
@@ -23,11 +24,16 @@ const Chats = () => {
         chatId: `${phoneNumber}@c.us`,
         message: values.text,
       };
-      await enterMessage(data, idInstance, apiTokenInstance);
+
+      await sendMessage(data, idInstance, apiTokenInstance);
       resetForm();
     },
     [phoneNumber, apiTokenInstance, idInstance]
   );
+
+  useEffect(() => {
+    getNotification(idInstance, apiTokenInstance);
+  }, [apiTokenInstance, idInstance]);
 
   return (
     <div>
