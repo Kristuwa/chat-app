@@ -1,21 +1,38 @@
-import React, { useEffect, useState } from "react";
-import { Modal } from "../components/Modal/Modal";
-import { useCallback } from "react";
-import { FormTextMessage } from "../components/FormTextMessage/FormTextMessage";
+import React, { useEffect, useState, useCallback } from "react";
 import { sendMessage, getNotification } from "../api/api";
 import { useSelector } from "react-redux";
 import { selectUser } from "../redux/auth/selectors";
 import { toast } from "react-toastify";
 import { Container } from "./Home.styled";
 import { ContainerChats, ChatSideContainer } from "./Chats.styled";
+import { Modal } from "../components/Modal/Modal";
 import { AsideComponent } from "../components/AsideComponent/AsideComponent";
-import { AsideHeader } from "../components/AsideComponent/AsideComponent.styled";
+import { ChatComponent } from "../components/ChatComponent/ChatComponent";
+
+const getPhoneFromStorage = () => {
+  const storagePhone = localStorage.getItem("phone");
+  return storagePhone ? JSON.parse(storagePhone) : "";
+};
+
+const getChatsFromStorage = (phoneNumber) => {
+  const storageList = localStorage.getItem("listMessages");
+  if (storageList) {
+    const parseList = JSON.parse(storageList);
+    const currentList = parseList.find(
+      (item) => item.phoneNumber === phoneNumber
+    );
+    return currentList.listNotification;
+  }
+  return [];
+};
 
 const Chats = () => {
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState(getPhoneFromStorage);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { idInstance, apiTokenInstance } = useSelector(selectUser);
-  const [listNotification, setListNotification] = useState([]);
+  const [listNotification, setListNotification] = useState(() =>
+    getChatsFromStorage(phoneNumber)
+  );
 
   const onModalOpen = useCallback(() => setIsModalOpen(true), []);
 
@@ -41,7 +58,7 @@ const Chats = () => {
         const id = await sendMessage(data, idInstance, apiTokenInstance);
         setListNotification((prevState) => [
           ...prevState,
-          { id, message: data.message },
+          { id, message: data.message, sender: "You" },
         ]);
         resetForm();
       } catch (error) {
@@ -53,11 +70,46 @@ const Chats = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      getNotification(idInstance, apiTokenInstance, setListNotification);
+      getNotification(
+        idInstance,
+        apiTokenInstance,
+        setListNotification,
+        phoneNumber
+      );
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [apiTokenInstance, idInstance]);
+  }, [apiTokenInstance, idInstance, phoneNumber]);
+
+  useEffect(() => {
+    const listStorage = localStorage.getItem("listMessages");
+
+    if (listStorage) {
+      const list = JSON.parse(listStorage);
+
+      const matchNumber = list.find((item) => item.phoneNumber === phoneNumber);
+
+      if (matchNumber) {
+        const updateList = list.map((item) =>
+          item.phoneNumber === matchNumber.phoneNumber
+            ? { phoneNumber, listNotification }
+            : item
+        );
+
+        localStorage.setItem("listMessages", JSON.stringify(updateList));
+      } else {
+        list.push({ phoneNumber, listNotification });
+        localStorage.setItem("listMessages", JSON.stringify(list));
+      }
+    } else {
+      localStorage.setItem(
+        "listMessages",
+        JSON.stringify([{ phoneNumber, listNotification }])
+      );
+    }
+
+    localStorage.setItem("phone", JSON.stringify(phoneNumber));
+  }, [listNotification, phoneNumber]);
 
   return (
     <main>
@@ -66,19 +118,11 @@ const Chats = () => {
           <AsideComponent onModalOpen={onModalOpen} />
           <ChatSideContainer>
             {phoneNumber && (
-              <>
-                <AsideHeader>
-                  <p>{phoneNumber}</p>
-                </AsideHeader>
-                {listNotification.length > 0 && (
-                  <ul>
-                    {listNotification.map(({ id, message }) => (
-                      <li key={id}>{message}</li>
-                    ))}
-                  </ul>
-                )}
-                <FormTextMessage onSubmitMessage={onSubmitMessage} />
-              </>
+              <ChatComponent
+                phoneNumber={phoneNumber}
+                listNotification={listNotification}
+                onSubmitMessage={onSubmitMessage}
+              />
             )}
           </ChatSideContainer>
           {isModalOpen && (

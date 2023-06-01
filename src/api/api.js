@@ -1,4 +1,3 @@
-import { nanoid } from "@reduxjs/toolkit";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -59,7 +58,8 @@ const deleteNotification = async (receiptId, idInstance, apiTokenInstance) => {
 export const getNotification = async (
   idInstance,
   apiTokenInstance,
-  setListNotification
+  setListNotification,
+  phoneNumber
 ) => {
   let config = {
     method: "get",
@@ -73,14 +73,23 @@ export const getNotification = async (
 
     if (result.data !== null) {
       const { receiptId, body } = result.data;
+
       await deleteNotification(receiptId, idInstance, apiTokenInstance);
 
-      if (body.messageData && body.messageData.textMessageData) {
-        const newMessage = {
-          id: nanoid(),
-          message: body.messageData.textMessageData.textMessage,
-        };
-        setListNotification((prevState) => [...prevState, newMessage]);
+      const isMatch =
+        phoneNumber.toString() ===
+        body.senderData?.sender?.slice(0, body.senderData?.sender?.length - 5);
+
+      if (isMatch) {
+        if (body.messageData && body.messageData.textMessageData) {
+          const newMessage = {
+            id: body.idMessage,
+            sender: body.senderData.sender,
+            message: body.messageData.textMessageData.textMessage,
+          };
+
+          setListNotification((prevState) => [...prevState, newMessage]);
+        }
       }
     }
   } catch (error) {

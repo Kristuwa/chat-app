@@ -20,7 +20,7 @@ export const AsideHeader = styled.div`
   background-color: ${(props) => props.theme.color.bgAsideColor};
 `;
 
-export const ButtonAddNumber = styled.button`
+export const ButtonAdd = styled.button`
   display: inline-block;
   padding: 5px;
   border: none;

@@ -24,7 +24,7 @@ export const FormNumber = ({ onSubmit }) => {
         <FormContainer>
           <FieldContainer>
             <label htmlFor="phone">Telephone number</label>
-            <Input id="phone" name="phone" placeholder="Enter phone" />
+            <Input id="phone" name="phone" placeholder="Format - 00000000000" />
             {errors.phone && touched.phone ? <div>{errors.phone}</div> : null}
           </FieldContainer>
 

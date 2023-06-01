@@ -1,11 +1,9 @@
 import { Formik } from "formik";
 import * as Yup from "yup";
-import {
-  ButtonForm,
-  FieldContainer,
-  FormContainer,
-  Input,
-} from "../Form/Form.styled";
+import { FieldContainer } from "../Form/Form.styled";
+import { ContainerFormMessage, InputMessage } from "./FormTextMessage.styled";
+import { FaLocationArrow } from "react-icons/fa";
+import { ButtonAdd } from "../AsideComponent/AsideComponent.styled";
 
 const validateSchema = Yup.object().shape({
   text: Yup.string().required("Required"),
@@ -21,14 +19,20 @@ export const FormTextMessage = ({ onSubmitMessage }) => {
       onSubmit={onSubmitMessage}
     >
       {({ errors, touched }) => (
-        <FormContainer>
+        <ContainerFormMessage>
           <FieldContainer>
-            <Input id="text" name="text" placeholder="Enter text message" />
+            <InputMessage
+              id="text"
+              name="text"
+              placeholder="Enter text message"
+            />
             {errors.text && touched.text ? <div>{errors.text}</div> : null}
           </FieldContainer>
 
-          <ButtonForm type="submit">Submit</ButtonForm>
-        </FormContainer>
+          <ButtonAdd type="submit" aria-label="Send message">
+            <FaLocationArrow />
+          </ButtonAdd>
+        </ContainerFormMessage>
       )}
     </Formik>
   );
