@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkchat_app=self.webpackChunkchat_app||[]).push([[922],{8922:function(e,n,t){t.r(n);var c=t(1e3),r=t(184);n.default=function(){return(0,r.jsx)(c.W,{children:(0,r.jsxs)("main",{style:{textAlign:"center"},children:[(0,r.jsx)("b",{style:{fontSize:62},children:"404"}),(0,r.jsx)("p",{children:"Sorry, we couldn't find that page"})]})})}}}]);
+//# sourceMappingURL=922.e6674093.chunk.js.map
