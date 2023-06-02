@@ -21,7 +21,7 @@ const getChatsFromStorage = (phoneNumber) => {
     const currentList = parseList.find(
       (item) => item.phoneNumber === phoneNumber
     );
-    return currentList.listNotification;
+    return currentList ? currentList.listNotification : [];
   }
   return [];
 };
@@ -41,9 +41,10 @@ const Chats = () => {
   }, []);
 
   const onSubmit = useCallback((values, { resetForm }) => {
-    setPhoneNumber(values.phone);
+    const { phone } = values;
+    setPhoneNumber(phone);
     setIsModalOpen(false);
-    setListNotification([]);
+    setListNotification(() => getChatsFromStorage(phone));
     resetForm();
   }, []);
 
