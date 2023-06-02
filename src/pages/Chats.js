@@ -1,13 +1,18 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { sendMessage, getNotification } from "../api/api";
 import { useSelector } from "react-redux";
-import { selectUser } from "../redux/auth/selectors";
+import {
+  selectError,
+  selectIsLoading,
+  selectUser,
+} from "../redux/auth/selectors";
 import { toast } from "react-toastify";
 import { Container } from "./Home.styled";
 import { ContainerChats, ChatSideContainer } from "./Chats.styled";
 import { Modal } from "../components/Modal/Modal";
 import { AsideComponent } from "../components/AsideComponent/AsideComponent";
 import { ChatComponent } from "../components/ChatComponent/ChatComponent";
+import { Loader } from "../components/Loader/Loader";
 
 const getPhoneFromStorage = () => {
   const storagePhone = localStorage.getItem("phone");
@@ -33,6 +38,10 @@ const Chats = () => {
   const [listNotification, setListNotification] = useState(() =>
     getChatsFromStorage(phoneNumber)
   );
+  const [loading, setLoading] = useState(false);
+  const [err, setErr] = useState(null);
+  const isLoading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
 
   const onModalOpen = useCallback(() => setIsModalOpen(true), []);
 
@@ -50,6 +59,7 @@ const Chats = () => {
 
   const onSubmitMessage = useCallback(
     async (values, { resetForm }) => {
+      setLoading(true);
       try {
         const data = {
           chatId: `${phoneNumber}@c.us`,
@@ -62,8 +72,11 @@ const Chats = () => {
           { id, message: data.message, sender: "You" },
         ]);
         resetForm();
+        setLoading(false);
       } catch (error) {
         toast.error(error.message);
+        setLoading(false);
+        setErr(error.message);
       }
     },
     [phoneNumber, apiTokenInstance, idInstance]
@@ -115,21 +128,27 @@ const Chats = () => {
   return (
     <main>
       <Container>
-        <ContainerChats>
-          <AsideComponent onModalOpen={onModalOpen} />
-          <ChatSideContainer>
-            {phoneNumber && (
-              <ChatComponent
-                phoneNumber={phoneNumber}
-                listNotification={listNotification}
-                onSubmitMessage={onSubmitMessage}
-              />
+        {!isLoading && !error && (
+          <ContainerChats>
+            <AsideComponent onModalOpen={onModalOpen} />
+            <ChatSideContainer>
+              {phoneNumber && (
+                <ChatComponent
+                  phoneNumber={phoneNumber}
+                  listNotification={listNotification}
+                  onSubmitMessage={onSubmitMessage}
+                  loading={loading}
+                  error={err}
+                />
+              )}
+            </ChatSideContainer>
+            {isModalOpen && (
+              <Modal onModalClose={onModalClose} onSubmit={onSubmit} />
             )}
-          </ChatSideContainer>
-          {isModalOpen && (
-            <Modal onModalClose={onModalClose} onSubmit={onSubmit} />
-          )}
-        </ContainerChats>
+          </ContainerChats>
+        )}
+        {isLoading && !error && <Loader />}
+        {!isLoading && error && <p>{error.message}</p>}
       </Container>
     </main>
   );
